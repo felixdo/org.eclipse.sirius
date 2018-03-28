@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <!--
-  Copyright (c) 2014, 2017 THALES GLOBAL SERVICES
+  Copyright (c) 2014, 2018 THALES GLOBAL SERVICES
   All rights reserved. This program and the accompanying materials
   are made available under the terms of the Eclipse Public License v1.0
   which accompanies this distribution, and is available at
@@ -9,6 +9,7 @@
 
   Contributors:
        Obeo - Initial API and implementation
+       Felix Dorner <felix.dorner@gmail.com> - Bug 533002
 -->
 
 <plugin>
@@ -1988,5 +1989,43 @@
          </Priority>
       </statusLineContributionItemProvider>
    </extension>
-
+   <extension
+         point="org.eclipse.gmf.runtime.diagram.ui.paletteProviders">
+    <paletteProvider
+          class="org.eclipse.gmf.runtime.diagram.ui.providers.DefaultPaletteProvider">
+       <Priority
+             name="Low">
+       </Priority>
+       <contribution
+             factoryClass="org.eclipse.sirius.diagram.ui.tools.internal.palette.SiriusDiagramPaletteFactory">
+          <entry
+                description="%palettetool.linkNote.description"
+                id="linkNoteTool"
+                kind="tool"
+                label="%palettetool.linkNote.label"
+                large_icon="icons/DDiagram.gif"
+                path="/standardGroup/noteStack/noteTool"
+                small_icon="icons/DDiagram.gif">
+          </entry>
+       </contribution>
+       <editor
+             id="org.eclipse.sirius.diagram.ui.part.SiriusDiagramEditorID">
+       </editor>
+    </paletteProvider>
+   </extension>
+    <extension
+       point="org.eclipse.gmf.runtime.emf.type.core.elementTypes">
+    <specializationType
+          id="org.eclipse.sirius.diagram.LinkNote"
+          kind="org.eclipse.gmf.runtime.diagram.ui.util.INotationType"
+          name="%palettetool.linkNote.elementTypeName">
+       <specializes
+             id="org.eclipse.gmf.runtime.diagram.ui.presentation.note">
+       </specializes>
+       <param
+             name="semanticHint"
+             value="Note">
+       </param>
+    </specializationType>
+ </extension>
 </plugin>
