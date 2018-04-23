@@ -12,8 +12,9 @@ package org.eclipse.sirius.diagram.ui.tools.internal.palette;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.Request;
+import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditDomain;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewRequest;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewRequest.ViewDescriptor;
 import org.eclipse.gmf.runtime.diagram.ui.tools.CreationTool;
@@ -21,13 +22,12 @@ import org.eclipse.gmf.runtime.diagram.ui.util.INotationType;
 import org.eclipse.gmf.runtime.emf.type.core.ElementTypeRegistry;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.notation.Node;
-import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.sirius.business.api.session.Session;
-import org.eclipse.sirius.business.api.session.SessionManager;
+import org.eclipse.sirius.ui.business.api.session.SessionEditorInput;
 import org.eclipse.sirius.ui.tools.internal.dialogs.SingleRepresentationTreeSelectionDialog;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.IEditorPart;
 
 /**
  * This tool creates a note that references an existing representation. The resulting note displays the name/icon of the
@@ -66,9 +66,10 @@ class LinkNoteTool extends CreationTool {
             T result = null;
             if (adapter == DRepresentationDescriptor.class) {
                 if (linkedRepresentation == null) {
-                    Object model = getTargetEditPart().getModel();
-                    Session session = SessionManager.INSTANCE.getExistingSession(EcoreUtil.getRootContainer((View) model).eResource().getURI());
-                    Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+                    EditPartViewer viewer = getTargetEditPart().getViewer();
+                    IEditorPart editor = (IEditorPart) ((DiagramEditDomain)viewer.getEditDomain()).getDiagramEditorPart();
+                    Session session = ((SessionEditorInput) editor.getEditorInput()).getSession();
+                    Shell shell = editor.getSite().getShell();
                     linkedRepresentation = SingleRepresentationTreeSelectionDialog.openSelectRepresentationDescriptor(shell, session);
                 }
                 result = (T) linkedRepresentation;
