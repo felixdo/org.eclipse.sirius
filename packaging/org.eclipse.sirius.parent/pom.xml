@@ -508,6 +508,14 @@
     </modules>
   </profile>
 
+  <profile>
+    <id>resolver</id>
+    <modules>
+      <module>../../packaging/org.eclipse.sirius.dependencies-feature</module>
+      <module>../../packaging/org.eclipse.sirius.resolved.target</module>
+    </modules>
+  </profile>
+
     <profile>
       <id>capella</id>
       <!-- This profile is used in replacement of "full" profile when we want to launch test in the same environment as Capella. For example, in Capella, the "properties" plug-ins are not present.-->
