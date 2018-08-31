@@ -131,7 +131,6 @@ public class Title_PropertiesEditionPartImpl extends CompositePropertiesEditionP
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void focusLost(FocusEvent e) {
                 if (propertiesEditionComponent != null) {
                     propertiesEditionComponent.firePropertiesChanged(new PropertiesEditionEvent(Title_PropertiesEditionPartImpl.this, DocbookViewsRepository.Title_.Properties.data,
@@ -149,7 +148,6 @@ public class Title_PropertiesEditionPartImpl extends CompositePropertiesEditionP
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void keyPressed(KeyEvent e) {
                 if (e.character == SWT.CR) {
                     if (propertiesEditionComponent != null) {

@@ -172,7 +172,6 @@ public class ItemizedListPropertiesEditionPartForm extends SectionPropertiesEdit
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void focusLost(FocusEvent e) {
                 if (propertiesEditionComponent != null) {
                     propertiesEditionComponent.firePropertiesChanged(new PropertiesEditionEvent(ItemizedListPropertiesEditionPartForm.this, DocbookViewsRepository.ItemizedList.Properties.mark,
@@ -199,7 +198,6 @@ public class ItemizedListPropertiesEditionPartForm extends SectionPropertiesEdit
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void keyPressed(KeyEvent e) {
                 if (e.character == SWT.CR) {
                     if (propertiesEditionComponent != null) {

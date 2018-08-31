@@ -155,7 +155,6 @@ public class ItemizedListPropertiesEditionPartImpl extends CompositePropertiesEd
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void focusLost(FocusEvent e) {
                 if (propertiesEditionComponent != null) {
                     propertiesEditionComponent.firePropertiesChanged(new PropertiesEditionEvent(ItemizedListPropertiesEditionPartImpl.this, DocbookViewsRepository.ItemizedList.Properties.mark,
@@ -173,7 +172,6 @@ public class ItemizedListPropertiesEditionPartImpl extends CompositePropertiesEd
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void keyPressed(KeyEvent e) {
                 if (e.character == SWT.CR) {
                     if (propertiesEditionComponent != null) {

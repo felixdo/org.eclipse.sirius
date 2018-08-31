@@ -245,7 +245,6 @@ public class InfoPropertiesEditionPartForm extends SectionPropertiesEditingPart 
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void focusLost(FocusEvent e) {
                 if (propertiesEditionComponent != null) {
                     propertiesEditionComponent.firePropertiesChanged(new PropertiesEditionEvent(InfoPropertiesEditionPartForm.this, DocbookViewsRepository.Info.Properties.date,
@@ -272,7 +271,6 @@ public class InfoPropertiesEditionPartForm extends SectionPropertiesEditingPart 
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void keyPressed(KeyEvent e) {
                 if (e.character == SWT.CR) {
                     if (propertiesEditionComponent != null) {
@@ -304,7 +302,6 @@ public class InfoPropertiesEditionPartForm extends SectionPropertiesEditingPart 
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void focusLost(FocusEvent e) {
                 if (propertiesEditionComponent != null) {
                     propertiesEditionComponent.firePropertiesChanged(new PropertiesEditionEvent(InfoPropertiesEditionPartForm.this, DocbookViewsRepository.Info.Properties.pubdate,
@@ -331,7 +328,6 @@ public class InfoPropertiesEditionPartForm extends SectionPropertiesEditingPart 
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void keyPressed(KeyEvent e) {
                 if (e.character == SWT.CR) {
                     if (propertiesEditionComponent != null) {

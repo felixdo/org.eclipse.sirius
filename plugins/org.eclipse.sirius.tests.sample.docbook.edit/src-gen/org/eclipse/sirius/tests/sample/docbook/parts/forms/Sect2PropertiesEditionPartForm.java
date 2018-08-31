@@ -249,7 +249,6 @@ public class Sect2PropertiesEditionPartForm extends SectionPropertiesEditingPart
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void focusLost(FocusEvent e) {
                 if (propertiesEditionComponent != null) {
                     propertiesEditionComponent.firePropertiesChanged(new PropertiesEditionEvent(Sect2PropertiesEditionPartForm.this, DocbookViewsRepository.Sect2.Properties.id,
@@ -276,7 +275,6 @@ public class Sect2PropertiesEditionPartForm extends SectionPropertiesEditingPart
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void keyPressed(KeyEvent e) {
                 if (e.character == SWT.CR) {
                     if (propertiesEditionComponent != null) {

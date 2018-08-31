@@ -156,7 +156,6 @@ public class ULinkPropertiesEditionPartForm extends SectionPropertiesEditingPart
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void focusLost(FocusEvent e) {
                 if (propertiesEditionComponent != null) {
                     propertiesEditionComponent.firePropertiesChanged(new PropertiesEditionEvent(ULinkPropertiesEditionPartForm.this, DocbookViewsRepository.ULink.Properties.url,
@@ -183,7 +182,6 @@ public class ULinkPropertiesEditionPartForm extends SectionPropertiesEditingPart
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void keyPressed(KeyEvent e) {
                 if (e.character == SWT.CR) {
                     if (propertiesEditionComponent != null) {
@@ -215,7 +213,6 @@ public class ULinkPropertiesEditionPartForm extends SectionPropertiesEditingPart
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void focusLost(FocusEvent e) {
                 if (propertiesEditionComponent != null) {
                     propertiesEditionComponent.firePropertiesChanged(new PropertiesEditionEvent(ULinkPropertiesEditionPartForm.this, DocbookViewsRepository.ULink.Properties.data,
@@ -242,7 +239,6 @@ public class ULinkPropertiesEditionPartForm extends SectionPropertiesEditingPart
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void keyPressed(KeyEvent e) {
                 if (e.character == SWT.CR) {
                     if (propertiesEditionComponent != null) {

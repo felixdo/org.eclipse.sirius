@@ -148,7 +148,6 @@ public class ParaPropertiesEditionPartForm extends SectionPropertiesEditingPart 
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void focusLost(FocusEvent e) {
                 if (propertiesEditionComponent != null) {
                     propertiesEditionComponent.firePropertiesChanged(new PropertiesEditionEvent(ParaPropertiesEditionPartForm.this, DocbookViewsRepository.Para.Properties.data,
@@ -175,7 +174,6 @@ public class ParaPropertiesEditionPartForm extends SectionPropertiesEditingPart 
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void keyPressed(KeyEvent e) {
                 if (e.character == SWT.CR) {
                     if (propertiesEditionComponent != null) {

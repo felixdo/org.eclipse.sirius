@@ -131,7 +131,6 @@ public class XRefPropertiesEditionPartImpl extends CompositePropertiesEditionPar
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void focusLost(FocusEvent e) {
                 if (propertiesEditionComponent != null) {
                     propertiesEditionComponent.firePropertiesChanged(new PropertiesEditionEvent(XRefPropertiesEditionPartImpl.this, DocbookViewsRepository.XRef.Properties.linkend,
@@ -149,7 +148,6 @@ public class XRefPropertiesEditionPartImpl extends CompositePropertiesEditionPar
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void keyPressed(KeyEvent e) {
                 if (e.character == SWT.CR) {
                     if (propertiesEditionComponent != null) {

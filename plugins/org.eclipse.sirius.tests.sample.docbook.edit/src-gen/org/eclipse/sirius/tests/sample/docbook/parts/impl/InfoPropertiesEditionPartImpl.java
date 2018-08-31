@@ -228,7 +228,6 @@ public class InfoPropertiesEditionPartImpl extends CompositePropertiesEditionPar
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void focusLost(FocusEvent e) {
                 if (propertiesEditionComponent != null) {
                     propertiesEditionComponent.firePropertiesChanged(new PropertiesEditionEvent(InfoPropertiesEditionPartImpl.this, DocbookViewsRepository.Info.Properties.date,
@@ -246,7 +245,6 @@ public class InfoPropertiesEditionPartImpl extends CompositePropertiesEditionPar
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void keyPressed(KeyEvent e) {
                 if (e.character == SWT.CR) {
                     if (propertiesEditionComponent != null) {
@@ -280,7 +278,6 @@ public class InfoPropertiesEditionPartImpl extends CompositePropertiesEditionPar
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void focusLost(FocusEvent e) {
                 if (propertiesEditionComponent != null) {
                     propertiesEditionComponent.firePropertiesChanged(new PropertiesEditionEvent(InfoPropertiesEditionPartImpl.this, DocbookViewsRepository.Info.Properties.pubdate,
@@ -298,7 +295,6 @@ public class InfoPropertiesEditionPartImpl extends CompositePropertiesEditionPar
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void keyPressed(KeyEvent e) {
                 if (e.character == SWT.CR) {
                     if (propertiesEditionComponent != null) {

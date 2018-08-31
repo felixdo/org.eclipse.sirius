@@ -131,7 +131,6 @@ public class EmphasisPropertiesEditionPartImpl extends CompositePropertiesEditio
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void focusLost(FocusEvent e) {
                 if (propertiesEditionComponent != null) {
                     propertiesEditionComponent.firePropertiesChanged(new PropertiesEditionEvent(EmphasisPropertiesEditionPartImpl.this, DocbookViewsRepository.Emphasis.Properties.remap,
@@ -149,7 +148,6 @@ public class EmphasisPropertiesEditionPartImpl extends CompositePropertiesEditio
              *
              */
             @Override
-            @SuppressWarnings("synthetic-access")
             public void keyPressed(KeyEvent e) {
                 if (e.character == SWT.CR) {
                     if (propertiesEditionComponent != null) {
