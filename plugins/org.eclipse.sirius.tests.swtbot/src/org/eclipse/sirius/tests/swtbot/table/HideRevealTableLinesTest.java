@@ -24,7 +24,6 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
 
 /**
  * Test class.
