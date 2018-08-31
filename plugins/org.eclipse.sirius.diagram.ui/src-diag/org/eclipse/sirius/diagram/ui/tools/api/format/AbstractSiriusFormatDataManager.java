@@ -185,7 +185,6 @@ public abstract class AbstractSiriusFormatDataManager implements SiriusFormatDat
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void centerEdgesEnds(View view) {
         Set<Edge> edges = new HashSet<Edge>();
         if (view instanceof Diagram) {

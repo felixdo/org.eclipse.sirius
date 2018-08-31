@@ -187,7 +187,6 @@ public abstract class AbstractSiriusLayoutDataManager implements SiriusLayoutDat
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void centerEdgesEnds(View view) {
         Set<Edge> edges = new HashSet<Edge>();
         if (view instanceof Diagram) {

@@ -423,7 +423,6 @@ public class SnapBackDistantLabelsMigrationParticipant extends AbstractRepresent
         return isLabelDistant;
     }
 
-    @SuppressWarnings("restriction")
     private int getLocationOfReference(Node edgeLabel) {
         int locationOfRef = LabelViewConstants.MIDDLE_LOCATION;
         int type = SiriusVisualIDRegistry.getVisualID(edgeLabel.getType());

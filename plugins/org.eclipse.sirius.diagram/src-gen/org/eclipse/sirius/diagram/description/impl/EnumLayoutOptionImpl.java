@@ -177,7 +177,6 @@ public class EnumLayoutOptionImpl extends EnumOptionImpl implements EnumLayoutOp
      *
      * @generated
      */
-    @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {

@@ -36,7 +36,6 @@ import org.eclipse.sirius.diagram.ui.tools.internal.handler.SiriusAnimatableZoom
  *
  * @author ymortier
  */
-@SuppressWarnings("restriction")
 public class DDiagramRootEditPart extends RenderedDiagramRootEditPart {
 
     private SiriusAnimatableZoomManager siriusZoomManager;
