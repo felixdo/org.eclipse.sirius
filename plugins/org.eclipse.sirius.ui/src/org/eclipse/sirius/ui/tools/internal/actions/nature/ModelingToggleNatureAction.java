@@ -61,7 +61,7 @@ public class ModelingToggleNatureAction extends AbstractHandler {
                 } else if (object instanceof IProjectNature) {
                     IProjectNature nature = (IProjectNature) object;
                     selectedProjects.add(nature.getProject());
-                } else if (Platform.getAdapterManager().getAdapter(object, IProject.class) instanceof IProject) {
+                } else if (Platform.getAdapterManager().getAdapter(object, IProject.class) != null) {
                     selectedProjects.add(Platform.getAdapterManager().getAdapter(object, IProject.class));
                 }
             }
