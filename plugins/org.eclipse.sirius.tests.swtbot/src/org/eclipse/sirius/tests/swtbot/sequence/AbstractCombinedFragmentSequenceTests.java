@@ -43,17 +43,22 @@ public abstract class AbstractCombinedFragmentSequenceTests extends AbstractSequ
 
     private static final String SESSION_FILE = "combinedFragment.aird";
 
-    protected static final String TYPES_FILE = "types.ecore";
+    private static final String TYPES_FILE = "types.ecore";
 
-    protected static final int NB_INITIAL_EXECUTIONS = 2;
+    private static final int NB_INITIAL_EXECUTIONS = 2;
 
-    protected static final int NB_INITIAL_INTERACTION_USE = 0;
+    private static final int NB_INITIAL_INTERACTION_USE = 0;
 
-    protected static final int NB_INITIAL_COMBINED_FRAGMENT = 2;
+    private static final int NB_INITIAL_COMBINED_FRAGMENT = 2;
 
-    // Main part
+    /**
+     * The bot for the whole sequence diagram.
+     */
     protected SWTBotGefEditPart sequenceDiagramBot;
 
+    /**
+     * The semantic root.
+     */
     protected Interaction interaction;
 
     // InstanceRoles
