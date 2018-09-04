@@ -692,9 +692,4 @@ public class EditModeTest extends AbstractModeTest {
     private SWTBotGefEditPart getEditPart(String partName) {
         return getEditPart(partName, GraphicalEditPart.class);
     }
-
-    private void doubleClickOnEdge(SWTBotGefEditPart swtBotDNodeEditPart) {
-        Point firstPoint = ((AbstractConnectionEditPart) swtBotDNodeEditPart.part()).getConnectionFigure().getPoints().getCopy().getFirstPoint();
-        editor.getCanvas().mouseMoveDoubleClick(firstPoint.x, firstPoint.y);
-    }
 }
