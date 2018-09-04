@@ -531,7 +531,7 @@ public final class SWTBotUtils {
      * 
      * This method checks enabled and disabled items and does consider only visible items, it will expand the tree to
      * find a matching item in the non displayed elements. If those features are required, see
-     * {@link SWTBotUtils.getTreeItem(SWTBotTreeItem[], String, boolean, boolean)}.
+     * {@link SWTBotUtils#getTreeItem(SWTBotTreeItem[], String, boolean, boolean)}.
      * 
      * @param treeElements
      *            the {@link SWTBotTreetem} list to search in
