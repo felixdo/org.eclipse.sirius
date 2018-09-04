@@ -665,8 +665,8 @@ public class ColorPropertyContributionItem extends PropertyChangeContributionIte
     public static ColorPropertyContributionItem createFontColorContributionItem(IWorkbenchPage workbenchPage) {
         String propertyName = DiagramUIActionsMessages.PropertyDescriptorFactory_FontColor;
         String toolTipText = DiagramUIActionsMessages.ColorChangeActionMenu_fontColor;
-        ImageData basicImageData = DiagramUIActionsPluginImages.DESC_FONT_COLOR.getImageData();
-        ImageData disabledBasicImageData = DiagramUIActionsPluginImages.DESC_FONT_COLOR_DISABLED.getImageData();
+        ImageData basicImageData = DiagramUIActionsPluginImages.DESC_FONT_COLOR.getImageData(100);
+        ImageData disabledBasicImageData = DiagramUIActionsPluginImages.DESC_FONT_COLOR_DISABLED.getImageData(100);
 
         return new ColorPropertyContributionItem(workbenchPage, ActionIds.CUSTOM_FONT_COLOR, Properties.ID_FONTCOLOR, propertyName, toolTipText, basicImageData, disabledBasicImageData);
     }
@@ -681,8 +681,8 @@ public class ColorPropertyContributionItem extends PropertyChangeContributionIte
     public static ColorPropertyContributionItem createLineColorContributionItem(IWorkbenchPage workbenchPage) {
         String propertyName = DiagramUIActionsMessages.PropertyDescriptorFactory_LineColor;
         String toolTipText = DiagramUIActionsMessages.ColorChangeActionMenu_lineColor;
-        ImageData basicImageData = DiagramUIActionsPluginImages.DESC_LINE_COLOR.getImageData();
-        ImageData disabledBasicImageData = DiagramUIActionsPluginImages.DESC_LINE_COLOR_DISABLED.getImageData();
+        ImageData basicImageData = DiagramUIActionsPluginImages.DESC_LINE_COLOR.getImageData(100);
+        ImageData disabledBasicImageData = DiagramUIActionsPluginImages.DESC_LINE_COLOR_DISABLED.getImageData(100);
 
         return new ColorPropertyContributionItem(workbenchPage, ActionIds.CUSTOM_LINE_COLOR, Properties.ID_LINECOLOR, propertyName, toolTipText, basicImageData, disabledBasicImageData);
     }
@@ -697,8 +697,8 @@ public class ColorPropertyContributionItem extends PropertyChangeContributionIte
     public static ColorPropertyContributionItem createFillColorContributionItem(IWorkbenchPage workbenchPage) {
         String propertyName = DiagramUIActionsMessages.PropertyDescriptorFactory_FillColor;
         String toolTipText = DiagramUIActionsMessages.ColorChangeActionMenu_fillColor;
-        ImageData basicImageData = DiagramUIActionsPluginImages.DESC_FILL_COLOR.getImageData();
-        ImageData disabledBasicImageData = DiagramUIActionsPluginImages.DESC_FILL_COLOR_DISABLED.getImageData();
+        ImageData basicImageData = DiagramUIActionsPluginImages.DESC_FILL_COLOR.getImageData(100);
+        ImageData disabledBasicImageData = DiagramUIActionsPluginImages.DESC_FILL_COLOR_DISABLED.getImageData(100);
 
         return new ColorPropertyContributionItem(workbenchPage, ActionIds.CUSTOM_FILL_COLOR, Properties.ID_FILLCOLOR, propertyName, toolTipText, basicImageData, disabledBasicImageData);
     }
