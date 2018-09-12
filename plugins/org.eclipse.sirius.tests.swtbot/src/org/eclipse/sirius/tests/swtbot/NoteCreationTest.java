@@ -35,6 +35,8 @@ import org.eclipse.sirius.diagram.ui.internal.edit.parts.DNodeList2EditPart;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.SiriusDescriptionCompartmentEditPart;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.SiriusDiagramNameCompartmentEditPart;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.SiriusNoteEditPart;
+import org.eclipse.sirius.diagram.ui.provider.DiagramUIPlugin;
+import org.eclipse.sirius.diagram.ui.tools.api.image.DiagramImagesPath;
 import org.eclipse.sirius.diagram.ui.tools.api.preferences.SiriusDiagramUiPreferencesKeys;
 import org.eclipse.sirius.tests.swtbot.support.api.AbstractSiriusSwtBotGefTestCase;
 import org.eclipse.sirius.tests.swtbot.support.api.business.UIDiagramRepresentation.ZoomLevel;
@@ -46,6 +48,7 @@ import org.eclipse.sirius.tests.swtbot.support.utils.SWTBotUtils;
 import org.eclipse.sirius.ui.business.api.session.SessionEditorInput;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditPart;
 import org.eclipse.ui.PartInitException;
 
@@ -624,16 +627,24 @@ public class NoteCreationTest extends AbstractSiriusSwtBotGefTestCase {
             validateDiagramNameCompartment(note, LINK_TARGET_NEW_NAME);
 
             /*
-             * Delete the target representation, this should delete the note
+             * When the target representation is deleted, the note label and
+             * icon should reflect this. In particular, the note is no longer
+             * deleted automatically, to avoid locks in collab and to give the
+             * user a chance to decide what to do with the note text. See also
+             * https://bugs.eclipse.org/bugs/show_bug.cgi?id=535648
              */
             ted.getCommandStack().execute(new DeleteRepresentationCommand(localSession.getOpenedSession(), Collections.singleton(link)));
-            assertNull(note.part().getParent());
-
+            validateDiagramNameCompartment(note, DiagramUIPlugin.getPlugin().getString("palettetool.linkNote.deletedLabel"),
+                    DiagramUIPlugin.getPlugin().getImage(DiagramUIPlugin.Implementation.getBundledImageDescriptor(DiagramImagesPath.DELETED_DIAG_ELEM_DECORATOR_ICON)));
         }
 
     }
 
     private void validateDiagramNameCompartment(SWTBotGefEditPart note, String expectedLabel) {
+        validateDiagramNameCompartment(note, expectedLabel, null);
+    }
+
+    private void validateDiagramNameCompartment(SWTBotGefEditPart note, String expectedLabel, Image expectedIcon) {
         SiriusDiagramNameCompartmentEditPart namePart = null;
         for (SWTBotGefEditPart child : note.children()) {
             if (child.part() instanceof SiriusDiagramNameCompartmentEditPart) {
@@ -642,6 +653,10 @@ public class NoteCreationTest extends AbstractSiriusSwtBotGefTestCase {
         }
         assertNotNull("No name compartment edit part found", namePart);
         assertEquals(expectedLabel, namePart.getLabelDelegate().getText());
+
+        if (expectedIcon != null) {
+            assertEquals(expectedIcon, namePart.getLabelDelegate().getIcon(0));
+        }
     }
 
     private DRepresentationDescriptor getDiagramLinkTarget() {

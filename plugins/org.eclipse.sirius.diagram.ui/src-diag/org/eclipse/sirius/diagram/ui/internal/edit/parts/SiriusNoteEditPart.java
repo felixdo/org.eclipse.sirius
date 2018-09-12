@@ -14,18 +14,16 @@ package org.eclipse.sirius.diagram.ui.internal.edit.parts;
 import java.util.List;
 import java.util.Optional;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.Request;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DescriptionCompartmentEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.NoteEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.internal.editparts.DiagramNameCompartmentEditPart;
-import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
-import org.eclipse.sirius.business.api.helper.SiriusUtil;
 import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.DiagramPackage;
 import org.eclipse.sirius.diagram.ui.business.api.query.ViewQuery;
@@ -44,8 +42,10 @@ import com.google.common.collect.Iterables;
  */
 public class SiriusNoteEditPart extends NoteEditPart {
 
-    /* this handles removal of diagram link notes when the referenced diagram is deleted */
-    static final Adapter LINK_ADAPTER = new DiagramLinkAdapter();
+    /**
+     * Annotation source constant for Diagram Link Note EAnnotations
+     */
+    public static final String LINK_NOTE_SOURCE = "http://www.eclipse.org/sirius/annotations/diagramlink"; //$NON-NLS-1$
 
     /**
      * Default constructor.
@@ -91,20 +91,20 @@ public class SiriusNoteEditPart extends NoteEditPart {
             if (diagram.isPresent()) {
                 addListenerFilter("ShowingMode", this, diagram.get(), DiagramPackage.eINSTANCE.getDDiagram_IsInShowingMode()); //$NON-NLS-1$
             }
+            if (isLinkNote() && !isDangling()) {
+                DRepresentationDescriptor linkedDescriptor = (DRepresentationDescriptor) getNotationView().getElement();
+                if (linkedDescriptor != null) {
+                    addListenerFilter("DiagramLink_RepresentationNameChange", this, linkedDescriptor); //$NON-NLS-1$
+                }
+            }
         }
-        if (isLinkNote()) {
-            getNotationView().eAdapters().add(LINK_ADAPTER);
-        }
-
     }
 
     @Override
     protected void removeNotationalListeners() {
         super.removeNotationalListeners();
         removeListenerFilter("ShowingMode"); //$NON-NLS-1$
-        if (isLinkNote()) {
-            getNotationView().eAdapters().remove(LINK_ADAPTER);
-        }
+        removeListenerFilter("DiagramLink_RepresentationNameChange"); //$NON-NLS-1$
     }
 
     @Override
@@ -136,13 +136,11 @@ public class SiriusNoteEditPart extends NoteEditPart {
         super.handleNotificationEvent(notification);
 
         // this handles link note label refresh when the linked representation name changes
-        if (isLinkNote()) {
-            if (getNotationView().getElement() == notification.getNotifier() && notification.getFeature() == ViewpointPackage.Literals.DREPRESENTATION_DESCRIPTOR__NAME) {
-                Iterable<DiagramNameCompartmentEditPart> diagramNameCompartmentEditPartsfilter = Iterables.filter(this.getChildren(), DiagramNameCompartmentEditPart.class);
-                if (Iterables.size(diagramNameCompartmentEditPartsfilter) == 1) {
-                    DiagramNameCompartmentEditPart diagramNameCompartmentEditPart = Iterables.getOnlyElement(diagramNameCompartmentEditPartsfilter);
-                    refreshChild(diagramNameCompartmentEditPart);
-                }
+        if (notification.getNotifier() == getNotationView().getElement() && notification.getFeature() == ViewpointPackage.Literals.DREPRESENTATION_DESCRIPTOR__NAME) {
+            Iterable<DiagramNameCompartmentEditPart> diagramNameCompartmentEditPartsfilter = Iterables.filter(this.getChildren(), DiagramNameCompartmentEditPart.class);
+            if (Iterables.size(diagramNameCompartmentEditPartsfilter) == 1) {
+                DiagramNameCompartmentEditPart diagramNameCompartmentEditPart = Iterables.getOnlyElement(diagramNameCompartmentEditPartsfilter);
+                refreshChild(diagramNameCompartmentEditPart);
             }
         }
     }
@@ -164,21 +162,24 @@ public class SiriusNoteEditPart extends NoteEditPart {
      * @return true if this is a link note, false otherwise
      */
     public boolean isLinkNote() {
-        return getNotationView() != null && getNotationView().getElement() instanceof DRepresentationDescriptor;
+        return getLinkAnnotation() != null;
     }
 
-    /*
-     * This just deletes the view when the element reference is unset, i.e. when the view's DRepresentationDescriptor is
-     * deleted.
+    /**
+     * If this is a link note, does it refer to a deleted representation descriptor? Invocations should be guarded by
+     * {@link #isLinkNote()}.
      */
-    static class DiagramLinkAdapter extends AdapterImpl {
-        @Override
-        public void notifyChanged(Notification msg) {
-            if (msg.getEventType() == Notification.UNSET && msg.getFeature() == NotationPackage.Literals.VIEW__ELEMENT) {
-                ((View) msg.getNotifier()).eAdapters().remove(this);
-                SiriusUtil.delete((View) msg.getNotifier());
-            }
+    public boolean isDangling() {
+        EObject element = getNotationView().getElement();
+        return element == null || !(element instanceof DRepresentationDescriptor) || element.eIsProxy() || element.eResource() == null;
+    }
+
+    private EAnnotation getLinkAnnotation() {
+        EAnnotation result = null;
+        if (getNotationView() != null) {
+            result = getNotationView().getEAnnotation(SiriusNoteEditPart.LINK_NOTE_SOURCE);
         }
+        return result;
     }
 
 }

@@ -17,11 +17,14 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.gef.DragTracker;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.TopGraphicEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.internal.editparts.DiagramNameCompartmentEditPart;
 import org.eclipse.gmf.runtime.gef.ui.internal.tools.DelegatingDragEditPartsTracker;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.sirius.diagram.ui.provider.DiagramUIPlugin;
+import org.eclipse.sirius.diagram.ui.tools.api.image.DiagramImagesPath;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -35,16 +38,33 @@ public class SiriusDiagramNameCompartmentEditPart extends DiagramNameCompartment
 
     @Override
     protected Image getLabelIcon(int i) {
-        if (getElement() != null) {
-            EditingDomain domain = AdapterFactoryEditingDomain.getEditingDomainFor(getElement());
-            if (domain instanceof AdapterFactoryEditingDomain) {
-                IItemLabelProvider provider = (IItemLabelProvider) ((AdapterFactoryEditingDomain) domain).getAdapterFactory().adapt(getElement(), IItemLabelProvider.class);
-                if (provider != null) {
-                    return ExtendedImageRegistry.getInstance().getImage(provider.getImage(getElement()));
+        EditPart ep = getParent();
+        if (ep instanceof SiriusNoteEditPart) {
+            if (((SiriusNoteEditPart) ep).isLinkNote()) {
+
+                if (((SiriusNoteEditPart) ep).isDangling()) {
+                    return DiagramUIPlugin.getPlugin().getImage(DiagramUIPlugin.Implementation.getBundledImageDescriptor(DiagramImagesPath.DELETED_DIAG_ELEM_DECORATOR_ICON));
+                }
+
+                EditingDomain domain = AdapterFactoryEditingDomain.getEditingDomainFor(getElement());
+                if (domain instanceof AdapterFactoryEditingDomain) {
+                    IItemLabelProvider provider = (IItemLabelProvider) ((AdapterFactoryEditingDomain) domain).getAdapterFactory().adapt(getElement(), IItemLabelProvider.class);
+                    if (provider != null) {
+                        return ExtendedImageRegistry.getInstance().getImage(provider.getImage(getElement()));
+                    }
                 }
             }
         }
         return super.getLabelIcon(i);
+    }
+
+    @Override
+    protected String getLabelText() {
+        EditPart ep = getParent();
+        if (ep instanceof SiriusNoteEditPart && ((SiriusNoteEditPart) ep).isLinkNote() && (((SiriusNoteEditPart) ep).isDangling())) {
+            return DiagramUIPlugin.getPlugin().getString("palettetool.linkNote.deletedLabel"); //$NON-NLS-1$
+        }
+        return super.getLabelText();
     }
 
     /**
