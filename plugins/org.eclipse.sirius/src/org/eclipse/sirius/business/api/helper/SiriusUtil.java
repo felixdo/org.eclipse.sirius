@@ -33,6 +33,7 @@ import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.sirius.viewpoint.description.Group;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
@@ -252,6 +253,22 @@ public final class SiriusUtil {
      *            the eObject session. Used to retrieve the semantic cross referencer.
      */
     public static void delete(EObject eObject, Session session) {
+        delete(eObject, session, null);
+    }
+
+    /**
+     * Deletes the object from its {@link EObject#eResource containing} resource and/or its {@link EObject#eContainer
+     * containing} object as well as from any other feature that references it (by using the session semantic cross
+     * referencer) within the enclosing resource set, resource, or root object.
+     * 
+     * @param eObject
+     *            the object to delete.
+     * @param session
+     *            the eObject session. Used to retrieve the semantic cross referencer.
+     * @param usageFilter
+     *            filters settings that should be left untouched
+     */
+    public static void delete(EObject eObject, Session session, Predicate<EStructuralFeature.Setting> usageFilter) {
         Session currentEObjectSession = session;
         if (currentEObjectSession == null) {
             // try to get the session if eObject is a semantic object
@@ -273,7 +290,7 @@ public final class SiriusUtil {
         if (currentEObjectSession != null) {
             Collection<EStructuralFeature.Setting> usages = currentEObjectSession.getSemanticCrossReferencer().getInverseReferences(eObject);
             for (EStructuralFeature.Setting setting : usages) {
-                if (setting.getEStructuralFeature().isChangeable()) {
+                if (setting.getEStructuralFeature().isChangeable() && usageFilter == null || usageFilter.apply(setting)) {
                     EcoreUtil.remove(setting, eObject);
                 }
             }

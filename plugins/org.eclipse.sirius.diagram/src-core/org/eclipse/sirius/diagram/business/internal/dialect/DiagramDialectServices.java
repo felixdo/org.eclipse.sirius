@@ -10,10 +10,13 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.business.internal.dialect;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -24,13 +27,17 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.notation.Diagram;
+import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.sirius.business.api.dialect.AbstractRepresentationDialectServices;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressionQuery;
+import org.eclipse.sirius.business.api.helper.SiriusUtil;
 import org.eclipse.sirius.business.api.helper.task.AbstractCommandTask;
 import org.eclipse.sirius.business.api.query.DRepresentationElementQuery;
 import org.eclipse.sirius.business.api.query.DViewQuery;
@@ -108,6 +115,36 @@ public class DiagramDialectServices extends AbstractRepresentationDialectService
     @Override
     protected boolean isSupported(DRepresentationDescriptor representationDescriptor) {
         return representationDescriptor.getDescription() instanceof DiagramDescription;
+    }
+
+    @Override
+    public boolean deleteRepresentation(DRepresentationDescriptor representationDescriptor, Session session) {
+        if (isSupported(representationDescriptor)) {
+            DRepresentation representation = representationDescriptor.getRepresentation();
+            Optional<Resource> resOpt = Optional.ofNullable(representation).map(EObject::eResource);
+            SiriusUtil.delete(representationDescriptor, session, new Predicate<EStructuralFeature.Setting>() {
+
+                @Override
+                public boolean apply(Setting input) {
+                    return input.getEStructuralFeature() == NotationPackage.Literals.VIEW__ELEMENT;
+                }
+
+            });
+            if (representation != null) {
+                SiriusUtil.delete(representation, session);
+            }
+
+            // delete the resource if it is empty
+            resOpt.filter(res -> res.getContents().isEmpty()).ifPresent(res -> {
+                try {
+                    res.delete(Collections.emptyMap());
+                } catch (IOException e) {
+                    SiriusPlugin.getDefault().error("toto", e);
+                }
+            });
+            return true;
+        }
+        return false;
     }
 
     /**
